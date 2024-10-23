@@ -1,0 +1,24 @@
+html {
+    word-break: normal;
+    font-size: 100%;
+    font-family: sans-serif;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px;
+    color: #111;
+    line-height: 1.5;
+}
+
+body, html {
+    height: 100%;
+    min-height: 100%;
+}
+
+.main {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
