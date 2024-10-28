@@ -1,9 +1,10 @@
 import style from './styles.module.css';
-export const Battery = () => {
+import { TBatteryProps } from './types';
+export const Battery = ({charge = 0}: TBatteryProps) => {
     return (
         <div className={style.wrap}>
             <div className={style.battery}>
-                45 % 
+                {charge} % 
             </div>
         </div>
     )

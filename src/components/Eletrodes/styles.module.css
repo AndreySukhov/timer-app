@@ -1,0 +1,26 @@
+.wrap {
+    margin-bottom: 30px;
+}
+
+.elecrode {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fafafa;
+    font-size: 14px;
+    padding: 2px;
+}
+
+.elecrode--disable {
+    background-color: #595959;
+}
+
+.elecrode--enable {
+    background-color: #52c41a;
+}
+
+.elecrode--error {
+    background-color: #cf1322;
+}

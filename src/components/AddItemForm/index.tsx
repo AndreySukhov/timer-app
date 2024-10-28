@@ -2,23 +2,23 @@ import { Input, Form, Select, Button, Flex } from "antd"
 import type { FormProps } from 'antd';
 
 
-type FieldType = {
+export type FieldType = {
     type: 'pulse' | 'direct';
-    time: number;
+    timer: number;
     current: number;
   };
 
   const requiredMessage = 'Field required'
 
 
-export const AddItemForm = ({ onClose} : { onClose: () => void }) => {
+export const AddItemForm = ({ onClose, onSubmit} : { onClose: () => void, onSubmit: (data: Omit<FieldType, 'type'> & {pulse_current: boolean}) => void }) => {
 
     const [form] = Form.useForm();
 
 
     const handleSubmit: FormProps<FieldType>['onFinish'] = (values) => {
-        console.log(values, 'values')
-        console.log(form.getFieldValue('type'),'form')
+     
+        onSubmit({timer: Number(values.timer), current: Number(values.current), pulse_current: form.getFieldValue('type') === 'pulse'})
         onClose()
     }
 
@@ -37,7 +37,7 @@ export const AddItemForm = ({ onClose} : { onClose: () => void }) => {
             </Form.Item>
             <Form.Item<FieldType>
                 label="Time"
-                name="time"
+                name="timer"
                 rules={[{ required: true, message: requiredMessage },
                 {
                     validator: (_, value) => {
