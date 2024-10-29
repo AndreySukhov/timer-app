@@ -4,8 +4,11 @@ import { RowItem } from "../RowItem";
 import { convertSecondsToMinutes } from "../../utils";
 import { TSettingsListProps } from "./types";
 import { TSetting } from "../../api/types";
+import { formatName } from "./utils";
 
 export const SettingsList = ({isSortable, sessions, onUpdate, onDelete}: TSettingsListProps) => {
+
+    console.log(sessions,'sessions')
     if (isSortable) {
         return (
             <ReactSortable
@@ -16,12 +19,12 @@ export const SettingsList = ({isSortable, sessions, onUpdate, onDelete}: TSettin
                             return (
                             <RowItem 
                                 key={i}
-                                name={'empty'}
+                                name={formatName(item.pulse_current)}
                                 status={item.status}
                                 time={convertSecondsToMinutes(item.timer - item.duration)}
                                 onDelete={() => onDelete(i)}
                                 actionsDisabled={false}
-                                />
+                            />
                         )
                         })}
                 </Flex>
@@ -35,7 +38,7 @@ export const SettingsList = ({isSortable, sessions, onUpdate, onDelete}: TSettin
                     return (
                         <RowItem 
                             key={i}
-                            name={'empty'}
+                            name={formatName(item.pulse_current)}
                             status={item.status}
                             time={convertSecondsToMinutes(item.timer - item.duration)}
                             onDelete={() => onDelete(i)}
