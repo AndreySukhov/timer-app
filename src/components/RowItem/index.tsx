@@ -1,13 +1,14 @@
-import { Flex, Button, Badge } from "antd";
+import { Flex, Button } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { TRowItemProps } from "./types";
+import style from './styles.module.css';
 
-export const RowItem = ({name, status, time, finished, onDelete}: TRowItemProps) => {
+export const RowItem = ({name, status, time,actionsDisabled, onDelete}: TRowItemProps) => {
     return (
         <Flex gap={12} style={{width: '100%'}} align="center">
-            <Badge status={status}>{name}</Badge>
-            <Badge status={status}>{finished ? 'OK' : time }</Badge>
-            <Button onClick={onDelete} style={{marginLeft: 'auto'}}><CloseOutlined /></Button>
+            <div className={`${style[`badge--${status}`]} ${style.name}`}>{name}</div>
+            <div className={`${style[`badge--${status}`]} ${style.time}`}>{status === 'completed' ? 'OK' : time }</div>
+            <Button onClick={onDelete} style={{marginLeft: 'auto'}} disabled={actionsDisabled}><CloseOutlined /></Button>
         </Flex>
     )
 }

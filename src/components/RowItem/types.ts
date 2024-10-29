@@ -1,9 +1,9 @@
-import { StatusType } from "../../App"
+import { TTaskStatus } from "../../api/types"
 
 export type TRowItemProps = {
     name: string,
-    status: StatusType,
+    status: TTaskStatus,
     time: string,
-    finished: boolean,
     onDelete: () => void
+    actionsDisabled: boolean
 }

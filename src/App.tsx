@@ -1,28 +1,44 @@
-import { useState } from "react";
-import { Battery, Controls, AddRow, RowItem, Electrodes, Complete } from "./components"
-import { Flex, Spin } from "antd"
-import { useRealTimeStatus, useStatus } from "./api";
+import { useEffect, useState } from "react";
+import { Battery, Controls, AddRow, Electrodes, Complete, SettingsList } from "./components"
+import { Spin } from "antd"
+import { useRealTimeStatus, useStatus, useSetSessionSettings } from "./api";
 import { convertSecondsToMinutes } from "./utils";
-
-export type StatusType = "warning" | "success" | "processing" | "error" | "default"
+import { TSetting } from "./api/types";
 
 export const App = () => {
 
-  const { realtimeData, connected } = useRealTimeStatus()
-  const { data } = useStatus()
+  const { realtimeData } = useRealTimeStatus()
+  const { data, isLoading } = useStatus()
+  const setSessionSettings = useSetSessionSettings();
 
-  console.log(connected,'connected')
-  console.log(data,'data')
+
   console.log(realtimeData,'realtimeData')
 
-  const [sessions, setSessions] = useState([])
+  const [sessions, setSessions] = useState<TSetting[]>([])
 
-  const handleDelete = (id: number) => {
-    console.log(id,'id')
+  const handleDelete = (index: number) => {
+    const newSessions =  sessions.filter((_, i) => i !==index)
+    setSessions(newSessions)
+    setSessionSettings.mutate(newSessions)
+  }
+
+  const handleUpdate = (sessions: TSetting[]) => {
+    console.log(sessions,'sessions')
+  }
+
+  useEffect(() => {
+
+    if (data?.session_settings) {
+      setSessions(data?.session_settings as TSetting[])
+    }
+  }, [data?.session_settings])
+
+  if (!data && isLoading) {
+    return <Spin />
   }
 
   if (!data) {
-    return <Spin />
+    return null
   }
 
   return (
@@ -33,7 +49,7 @@ export const App = () => {
         
         <Controls 
           status={data.session_status}
-          timer={convertSecondsToMinutes(data.session_time - data.timer)}
+          timer={convertSecondsToMinutes(data.timer - data.session_time)}
           hasSessions={!!data.session_settings.length}
            />
 
@@ -41,26 +57,14 @@ export const App = () => {
           <Electrodes electrodes={data?.electrode_statuses}/>
         )}
 
-
         {sessions.length > 0 && (
-        <Flex style={{marginBlockEnd: 20, width: '100%'}} vertical gap={8} justify="space-between">
-        {sessions.map((item) => {
-          return (
-            <RowItem 
-              key={item.id}
-              name={item.name}
-              finished={item.finished}
-              status={item.status as StatusType}
-              time={item.time}
-              onDelete={() => handleDelete(item.id)}
-                />
-          )
-        })}
-      </Flex>
+          <SettingsList 
+            sessions={sessions}
+            isSortable={data.session_status === 'stop'}
+            onDelete={handleDelete}
+            onUpdate={handleUpdate}
+             />
         )}
-
-
-
 
         <AddRow sessions={sessions} />
       </div>

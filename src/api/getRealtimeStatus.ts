@@ -19,7 +19,7 @@ export const useRealTimeStatus = () => {
       };
 
       ws.onmessage = (event: MessageEvent) => {
-        setData((prevData) => [...prevData, event.data]);
+        setData(event.data);
       };
 
       ws.onclose = (event: CloseEvent) => {

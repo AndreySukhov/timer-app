@@ -1,0 +1,26 @@
+.name {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    padding: 15px 10px;
+}
+
+.time {
+    width: 70px;
+    padding: 15px 10px;
+    text-align: center;
+}
+
+.badge--completed {
+    background-color: #52c41a;
+
+}
+
+.badge--pending {
+    background-color: #595959;
+}
+
+.badge--in_progress {
+    background-color: #ffec3d;
+}

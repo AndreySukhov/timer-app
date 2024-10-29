@@ -2,12 +2,15 @@ import { TElectrode } from "../components/Eletrodes/types"
 
 export type TSessionSettingsStatus = 'stop' | 'pause' | 'run' | 'completed'
 
-type TSetting = {
+export type TTaskStatus = 'completed' | 'in_progress' | 'pending'
+
+export type TSetting = {
     "pulse_current": boolean,
     "duration": number,
     "timer": number,
     "current": number,
-    "status": TSessionSettingsStatus
+    "status": TTaskStatus
+    id: number,
   }
 
 export type TSession = {
