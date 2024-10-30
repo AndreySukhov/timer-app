@@ -10,7 +10,7 @@ export type TSetting = {
     "timer": number,
     "current": number,
     "status": TTaskStatus
-    id: number,
+    id?: number,
   }
 
 export type TSession = {

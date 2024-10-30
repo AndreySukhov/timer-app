@@ -1,20 +1,16 @@
 import styles from './styles.module.css';
 import { Button, Statistic } from 'antd';
 import { TControlsProps } from './types';
-import { useChangeSessionStatus } from '../../api';
 
-export const Controls = ({ timer, status, hasSessions } : TControlsProps) => {
-
-    const { mutate } = useChangeSessionStatus()
-
+export const Controls = ({ timer, status, hasSettings, onComandUpdate } : TControlsProps) => {
     return (
         <div className={styles.wrap}>
             <Button
                 color="primary"
                 variant="solid"
                 size='large'
-                onClick={() => mutate('start')}
-                disabled={!(status === 'stop' || status === 'pause') || !hasSessions}
+                onClick={() => onComandUpdate('start')}
+                disabled={!(status === 'stop' || status === 'pause') || !hasSettings}
             >
                 Старт
             </Button>
@@ -24,7 +20,7 @@ export const Controls = ({ timer, status, hasSessions } : TControlsProps) => {
                 variant="solid"
                 size='large'
                 disabled={status !== 'run'}
-                onClick={() => mutate('pause')}
+                onClick={() => onComandUpdate('pause')}
                 >
                 Пауза
             </Button>
@@ -36,7 +32,7 @@ export const Controls = ({ timer, status, hasSessions } : TControlsProps) => {
                 variant="solid"
                 size='large'
                 disabled={!(status === 'run' || status === 'pause')}
-                onClick={() => mutate('stop')}
+                onClick={() => onComandUpdate('stop')}
                 >
                 Стоп
             </Button>

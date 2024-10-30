@@ -1,72 +1,102 @@
 import { useEffect, useState } from "react";
 import { Battery, Controls, AddRow, Electrodes, Complete, SettingsList } from "./components"
 import { Spin } from "antd"
-import { useRealTimeStatus, useStatus, useSetSessionSettings } from "./api";
+import { useRealTimeStatus, useStatus, useSetSessionSettings, useChangeSessionStatus } from "./api";
 import { convertSecondsToMinutes } from "./utils";
-import { TSetting } from "./api/types";
+import { TSetting, TSession } from "./api/types";
+import { TCommandType } from "./api/runSession";
 
 export const App = () => {
 
   const { realtimeData } = useRealTimeStatus()
   const { data, isLoading } = useStatus()
   const setSessionSettings = useSetSessionSettings();
+  const changeSession = useChangeSessionStatus()
 
+  const [currentData, setCurrentData] = useState<null | TSession>(null);
 
-  console.log(realtimeData,'realtimeData')
-
-  const [sessions, setSessions] = useState<TSetting[]>([])
-
-  const handleDelete = (index: number) => {
-    const newSessions =  sessions.filter((_, i) => i !==index)
-    setSessions(newSessions)
-    setSessionSettings.mutate(newSessions)
+  const handleDelete = async (index: number) => {
+    if (!currentData) {
+      return
+    }
+    const newSessions =  currentData.session_settings.filter((_, i) => i !==index)
+   
+    const res = await setSessionSettings.mutateAsync(newSessions)
+    setCurrentData(res)
   }
 
-  const handleUpdate = (sessions: TSetting[]) => {
-    console.log(sessions,'sessions')
+  const handleSessionsUpdate = async (sessions: TSetting[]) => {
+    if (!currentData) {
+      return
+    }
+
+    const res = await setSessionSettings.mutateAsync(sessions)
+
+    setCurrentData(res)
   }
+
+  const handleUpdate = (data: TSession) => {
+    if (!currentData) {
+      return
+    }
+    setCurrentData(data)
+  }
+
+  const handleComandUpdate = async (comand: TCommandType) => {
+    const res = await changeSession.mutateAsync(comand)
+
+    setCurrentData(res)
+  }
+
 
   useEffect(() => {
 
-    if (data?.session_settings) {
-      setSessions(data?.session_settings as TSetting[])
+    if (!isLoading && data) {
+      setCurrentData(data)
     }
-  }, [data?.session_settings])
+  }, [isLoading, data])
 
-  if (!data && isLoading) {
+  useEffect(() => {
+    if (!Array.isArray(realtimeData)) {
+      setCurrentData(JSON.parse(`${realtimeData}`).status)
+    }
+  }, [realtimeData])
+
+  if (!currentData && isLoading) {
     return <Spin />
   }
 
-  if (!data) {
+  if (!currentData) {
     return null
   }
 
   return (
     <div className="main">
 
-        {data.session_status === 'completed' && <Complete />}
-        <Battery charge={data?.battery_level}/>
+        {currentData.session_status === 'completed' && <Complete onComandUpdate={handleComandUpdate} />}
+        <Battery charge={currentData?.battery_level}/>
         
         <Controls 
-          status={data.session_status}
-          timer={convertSecondsToMinutes(data.timer - data.session_time)}
-          hasSessions={!!data.session_settings.length}
-           />
+          status={currentData.session_status}
+          timer={convertSecondsToMinutes(currentData.timer - currentData.session_time)}
+          hasSettings={!!currentData.session_settings.length}
+          onComandUpdate={handleComandUpdate}
+         />
 
-        {data?.electrode_statuses && data?.electrode_statuses?.length > 0 && (
-          <Electrodes electrodes={data?.electrode_statuses}/>
+        {currentData?.electrode_statuses && currentData?.electrode_statuses?.length > 0 && (
+          <Electrodes electrodes={currentData?.electrode_statuses}/>
         )}
 
-        {sessions.length > 0 && (
+        {currentData.session_settings.length > 0 && (
           <SettingsList 
-            sessions={sessions}
-            isSortable={data.session_status === 'stop'}
+            settings={currentData.session_settings}
+            isSortable={currentData.session_status === 'stop'}
             onDelete={handleDelete}
-            onUpdate={handleUpdate}
-             />
+            onUpdate={handleSessionsUpdate}
+          />
         )}
 
-        <AddRow sessions={sessions} />
+        <AddRow settings={currentData.session_settings} onUpdate={handleUpdate} />
       </div>
   )
 }

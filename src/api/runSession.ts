@@ -2,7 +2,7 @@ import { useMutation } from "react-query";
 import { apiUrl } from "./utils";
 import { TSession } from "./types";
 
-  type TCommandType = 'start' | 'stop' | 'pause' | 'restart'
+  export type TCommandType = 'start' | 'stop' | 'pause' | 'restart'
 
   export const changeSessionStatus = async (command: TCommandType) => {
     const res = await fetch(`${apiUrl}${command}`, {

@@ -5,18 +5,20 @@ import { useState } from 'react';
 import { AddItemForm } from '../AddItemForm';
 import { FieldType } from '../AddItemForm';
 import { useSetSessionSettings } from '../../api';
-import { TSetting } from '../../api/types';
+import { TAddRowProps } from './types';
 
-export const AddRow = ({sessions}: { sessions: TSetting[]}) => {
+export const AddRow = ({settings, onUpdate}: TAddRowProps) => {
 
     const [isOpen, setIsOpen] = useState<boolean>(false)
-    const { mutate } = useSetSessionSettings();
+    const { mutateAsync } = useSetSessionSettings();
 
 
     const closeModal = () => setIsOpen(false)
 
-    const onSubmit = (data: Omit<FieldType, 'type'> & {pulse_current: boolean}) => {
-        mutate([data, ...sessions])
+    const onSubmit = async (data: Omit<FieldType, 'type'> & {pulse_current: boolean}) => {
+        const newData = [data, ...settings]
+        const res = await mutateAsync(newData)
+        onUpdate(res)
         
     }
 
