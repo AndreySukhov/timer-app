@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Battery, Controls, AddRow, Electrodes, Complete, SettingsList } from "./components"
+import { Battery, Controls, AddRow, Electrodes, Complete, SettingsList, Timer } from "./components"
 import { Spin } from "antd"
 import { useRealTimeStatus, useStatus, useSetSessionSettings, useChangeSessionStatus } from "./api";
 import { convertSecondsToMinutes } from "./utils";
 import { TSetting, TSession } from "./api/types";
 import { TCommandType } from "./api/runSession";
+import styles from './styles.module.css';
 
 export const App = () => {
 
@@ -74,18 +75,29 @@ export const App = () => {
     <div className="main">
 
         {currentData.session_status === 'completed' && <Complete onComandUpdate={handleComandUpdate} />}
-        <Battery charge={currentData?.battery_level}/>
-        
-        <Controls 
-          status={currentData.session_status}
-          timer={convertSecondsToMinutes(currentData.timer - currentData.session_time)}
-          hasSettings={!!currentData.session_settings.length}
-          onComandUpdate={handleComandUpdate}
-         />
+          <div className={styles.row}>
+            <div />
 
-        {currentData?.electrode_statuses && currentData?.electrode_statuses?.length > 0 && (
-          <Electrodes electrodes={currentData?.electrode_statuses}/>
-        )}
+            <Timer 
+              totalTime={currentData.timer}
+              time={currentData.session_time}
+              formattedTime={convertSecondsToMinutes(currentData.timer - currentData.session_time)}
+            />
+
+            <Battery charge={currentData?.battery_level}/>
+          </div>
+
+          <div className={`${styles.row} ${styles['row--end']}`}>
+            <Controls 
+              status={currentData.session_status}
+              hasSettings={!!currentData.session_settings.length}
+              onComandUpdate={handleComandUpdate}
+            >
+              {currentData?.electrode_statuses && currentData?.electrode_statuses?.length > 0 ? (
+                  <Electrodes electrodes={currentData?.electrode_statuses}/>
+              ) : <div/> }
+            </Controls>
+          </div>
 
         {currentData.session_settings.length > 0 && (
           <SettingsList 
@@ -96,7 +108,7 @@ export const App = () => {
           />
         )}
 
-        <AddRow settings={currentData.session_settings} onUpdate={handleUpdate} />
+        <AddRow settings={currentData.session_settings} onUpdate={handleUpdate} isAddADisabled={currentData.session_status !== 'stop'} />
       </div>
   )
 }

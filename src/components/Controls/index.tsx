@@ -1,41 +1,47 @@
 import styles from './styles.module.css';
-import { Button, Statistic } from 'antd';
 import { TControlsProps } from './types';
+import { Square } from '../../assets/icons/square';
+import { Play } from '../../assets/icons/play';
 
-export const Controls = ({ timer, status, hasSettings, onComandUpdate } : TControlsProps) => {
+export const Controls = ({ status, hasSettings, onComandUpdate, children } : TControlsProps) => {
     return (
-        <div className={styles.wrap}>
-            <Button
-                color="primary"
-                variant="solid"
-                size='large'
-                onClick={() => onComandUpdate('start')}
-                disabled={!(status === 'stop' || status === 'pause') || !hasSettings}
-            >
-                Старт
-            </Button>
+        <>
 
+        {/* <div>
             <Button 
                 color="primary"
                 variant="solid"
                 size='large'
                 disabled={status !== 'run'}
                 onClick={() => onComandUpdate('pause')}
-                >
+            >
                 Пауза
             </Button>
 
-            <Statistic  value={timer} />
+        </div> */}
+           
 
-            <Button
-                color="default"
-                variant="solid"
-                size='large'
+        
+
+           <button
+                className={`${styles.button} ${styles['button-stop']}`}
                 disabled={!(status === 'run' || status === 'pause')}
                 onClick={() => onComandUpdate('stop')}
-                >
-                Стоп
-            </Button>
-        </div>
+            >
+                <Square />
+            </button>
+
+ 
+
+            {children}
+
+            <button
+                className={`${styles.button} ${styles['button-start']}`}
+                onClick={() => onComandUpdate('start')}
+                disabled={!(status === 'stop' || status === 'pause') || !hasSettings}
+            >
+                <Play />
+            </button>
+        </>
     )
 }

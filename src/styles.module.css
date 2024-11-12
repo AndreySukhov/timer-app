@@ -1,0 +1,32 @@
+.row {
+    display: grid;
+    grid-template-columns: 128px 1fr 128px;
+    gap: 34px;
+    margin-bottom: 36px;
+}
+
+.row--end {
+    vertical-align: bottom;
+    margin-top: -50px;
+    margin-bottom: 75px;
+}
+
+body :global(.ant-modal-content) {
+    background-color: #292929 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+body :global(.ant-modal-header) {
+    background-color: transparent !important;
+    margin-bottom: 24px !important;
+}
+
+body :global(.ant-modal-title) {
+    color: #fff !important;
+    font-weight: 600 !important;
+    font-size: 18px !important;
+}
+
+body :global(.ant-modal-close-x) path {
+    fill: #666 !important;
+}

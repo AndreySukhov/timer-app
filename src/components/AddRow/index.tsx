@@ -1,4 +1,4 @@
-import style from './styles.module.css';
+import styles from './styles.module.css';
 import { Button, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useState } from 'react';
@@ -7,7 +7,7 @@ import { FieldType } from '../AddItemForm';
 import { useSetSessionSettings } from '../../api';
 import { TAddRowProps } from './types';
 
-export const AddRow = ({settings, onUpdate}: TAddRowProps) => {
+export const AddRow = ({settings, onUpdate, isAddADisabled}: TAddRowProps) => {
 
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const { mutateAsync } = useSetSessionSettings();
@@ -23,11 +23,14 @@ export const AddRow = ({settings, onUpdate}: TAddRowProps) => {
     }
 
     return (
-        <div className={style.wrap}>
-            <Button color="primary" variant="solid" size='large' onClick={() => setIsOpen(true)}>
-                <PlusOutlined />
-            </Button>
-            <Modal title="Добавить элемент" open={isOpen} onOk={closeModal} onCancel={closeModal} footer={null}>
+        <div className={styles.wrap}>
+            <Button
+                shape="circle"
+                onClick={() => setIsOpen(true)}
+                disabled={isAddADisabled}
+                icon={<PlusOutlined />} className={styles.button} />
+
+            <Modal title="Добавить элемент" open={isOpen} onOk={closeModal} onCancel={closeModal} footer={null} className={styles.modal}>
                 <AddItemForm onClose={closeModal} onSubmit={onSubmit} />
             </Modal>
         </div>

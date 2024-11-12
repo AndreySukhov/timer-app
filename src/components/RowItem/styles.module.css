@@ -1,26 +1,37 @@
+.wrap {
+    padding: 24px;
+    font-size: 20px;
+    border-radius: 16px;
+    background-color: #1A1A1A;
+    border: 1px solid transparent;
+}
+
+.label {
+    font-weight: 600;
+    margin-right: 4px;
+    color: #fff;
+}
+
 .name {
     display: inline-flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     flex: 1;
-    padding: 15px 10px;
+    color: #999;
 }
 
 .time {
-    width: 70px;
-    padding: 15px 10px;
     text-align: center;
+    margin-left: auto;
 }
 
-.badge--completed {
-    background-color: #52c41a;
-
+.wrap--pending {
+    border-color: #2F2F2F;
+    background: transparent;
 }
 
-.badge--pending {
-    background-color: #595959;
-}
 
-.badge--in_progress {
-    background-color: #ffec3d;
+.wrap--in_progress {
+    background: transparent;
+    border-color: #fff;
 }

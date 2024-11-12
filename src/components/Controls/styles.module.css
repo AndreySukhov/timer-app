@@ -1,7 +1,26 @@
-.wrap {
+.button {
+    width: 128px;
+    height: 128px;
+    border-radius: 200px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 24px;
+    justify-content: center;
+    transition: opacity 0.15s ease-out;
+    cursor: pointer;
+}
+
+.button:hover {
+    opacity: 0.9;
+}
+
+.button-stop {
+    background-color: #440001;
+    border: 3px solid #0A0A0A; 
+    outline: 3px solid #440001;
+}
+
+.button-start {
+    background-color: #082A11;
+    border: 3px solid #0A0A0A; /* Inner border */
+    outline: 3px solid #082A11; /* Outer border */
 }

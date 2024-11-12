@@ -1,0 +1,24 @@
+.text {
+    color: #fff;
+    font-size: 96px;
+    font-weight: 300;
+}
+
+.progress :global(.ant-progress-inner) {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    max-height: 600px !important;
+}
+
+@media (max-width: 850px) {
+    .text { 
+        font-size: 50px;
+    }
+}
+
+@media (max-width: 620px) { 
+    .text { 
+        font-size: 15px;
+    }
+}

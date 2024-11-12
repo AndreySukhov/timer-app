@@ -1,3 +1,26 @@
-.wrap button {
-    width: 100%;
+.wrap {
+    display: flex;
+    justify-content: center;
+}
+
+.button {
+    border: transparent;
+    background-color: #292929;
+
+    transition: opacity 0.15s ease-out;
+    width: 64px !important;
+    height: 64px !important;
+}
+
+.button:hover {
+    background-color: #292929 !important;
+    opacity: 0.9;
+}
+
+.button svg {
+    width: 16px;
+}
+
+.button path {
+    fill: #fff;
 }

@@ -1,6 +1,6 @@
-import { Input, Form, Select, Button, Flex } from "antd"
+import { Input, Form, Select, Radio, Button, Flex } from "antd"
 import type { FormProps } from 'antd';
-
+import styles from './styles.module.css'
 
 export type FieldType = {
     type: 'pulse' | 'direct';
@@ -17,63 +17,68 @@ export const AddItemForm = ({ onClose, onSubmit} : { onClose: () => void, onSubm
 
 
     const handleSubmit: FormProps<FieldType>['onFinish'] = (values) => {
+        console.log(form.getFieldValue('type'),'form.getFieldValue()')
      
         onSubmit({timer: Number(values.timer), current: Number(values.current), pulse_current: form.getFieldValue('type') === 'pulse'})
         onClose()
     }
 
     return (
-        <Form autoComplete="off" onFinish={handleSubmit} form={form}>
+        <Form autoComplete="off" onFinish={handleSubmit} form={form} layout="vertical" className={styles.form}>
              <Form.Item<FieldType>
-                 label="Type"
-                    rules={[{ required: true, message: requiredMessage }]}
+                className={styles['form-item']}
+                label="Type"
+                rules={[{ required: true, message: requiredMessage }]}
              >
-                <Select onChange={(val) => {
-                    form.setFieldValue('type', val)
-                }}>
-                    <Select.Option value="pulse">Pulse</Select.Option>
-                    <Select.Option value="direct">Direct</Select.Option>
-                </Select>
+                 <Radio.Group name="type" onChange={(e) =>{
+                    form.setFieldValue('type', e.target.value)
+                 } }>
+                    <Radio.Button value="pulse">Pulse</Radio.Button>
+                    <Radio.Button value="direct">Direct</Radio.Button>
+                </Radio.Group>
             </Form.Item>
-            <Form.Item<FieldType>
-                label="Time"
-                name="timer"
-                rules={[{ required: true, message: requiredMessage },
-                {
-                    validator: (_, value) => {
-                        const parsedValue = Number(value)
 
-                        if (parsedValue >= 1 && parsedValue <= 60) {
-                            return Promise.resolve();
-                        }
-                        return Promise.reject(new Error('The input should be number from 1 to 60'));
+            <Flex gap={32}>
+                <Form.Item<FieldType>
+                    label="Time"
+                    name="timer"
+                    className={styles['form-item']}
+                    rules={[{ required: true, message: requiredMessage },
+                    {
+                        validator: (_, value) => {
+                            const parsedValue = Number(value)
+
+                            if (parsedValue >= 1 && parsedValue <= 60) {
+                                return Promise.resolve();
+                            }
+                            return Promise.reject(new Error('The input should be number from 1 to 60'));
+                        },
                     },
-                },
-            ]}
-                >
-                <Input type="number" min={1} max={60} />
-            </Form.Item>
-            <Form.Item<FieldType>
-                label="Current"
-                name="current"
-                rules={[{ required: true, message: requiredMessage },  {
-                    validator: (_, value) => {
-                        const parsedValue = Number(value)
-                        if (parsedValue >= 1 && parsedValue <= 15) {
-                            return Promise.resolve();
-                        }
-                        return Promise.reject(new Error('The input should be number from 1 to 15'));
-                    },
-                },]}
-                >
-                <Input type="number" min={1} max={15} />
-            </Form.Item>
+                ]}
+                    >
+                    <Input type="number" min={1} max={60} placeholder="1 to 60 min" />
+                </Form.Item>
+
+                <Form.Item<FieldType>
+                    label="Current"
+                    className={styles['form-item']}
+                    name="current"
+                    rules={[{ required: true, message: requiredMessage },  {
+                        validator: (_, value) => {
+                            const parsedValue = Number(value)
+                            if (parsedValue >= 1 && parsedValue <= 15) {
+                                return Promise.resolve();
+                            }
+                            return Promise.reject(new Error('The input should be number from 1 to 15'));
+                        },
+                    },]}
+                    >
+                    <Input type="number" min={1} max={15} placeholder="1 to 15 min"  />
+                </Form.Item>
+            </Flex>
+            
             <Form.Item >
-                <Flex gap={12} justify="end">
-                    <Button color="default" variant="outlined" onClick={onClose}>Cancel</Button>
-
-                    <Button type="primary" htmlType="submit">Submit</Button>
-                </Flex>
+                <Button htmlType="submit" size="large" block >Confirm</Button>
             </Form.Item>
         </Form>
     )

@@ -1,26 +1,39 @@
 .wrap {
-    margin-bottom: 30px;
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.2;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
 }
 
 .elecrode {
-    width: 30px;
-    height: 30px;
+    width: 48px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fafafa;
-    font-size: 14px;
-    padding: 2px;
+    color: #0a0a0a;
+    border-radius: 200px;
+    border: 1px solid transparent;
 }
 
 .elecrode--disable {
-    background-color: #595959;
+    background-color: transparent;
+    border-color: #fff;
+    color: #fff;
+    
 }
 
 .elecrode--enable {
-    background-color: #52c41a;
+    background-color: #fff;
+    border-color: #fff;
+
 }
 
 .elecrode--error {
-    background-color: #cf1322;
+    background-color: #FE9F06;
 }
