@@ -9,7 +9,7 @@
     cursor: pointer;
 }
 
-.button:hover {
+.button:not(:disabled):hover {
     opacity: 0.9;
 }
 
@@ -23,4 +23,8 @@
     background-color: #082A11;
     border: 3px solid #0A0A0A; /* Inner border */
     outline: 3px solid #082A11; /* Outer border */
+}
+
+.button:disabled {
+    cursor: default;
 }

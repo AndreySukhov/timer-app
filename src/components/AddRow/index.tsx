@@ -17,6 +17,7 @@ export const AddRow = ({settings, onUpdate, isAddADisabled}: TAddRowProps) => {
 
     const onSubmit = async (data: Omit<FieldType, 'type'> & {pulse_current: boolean}) => {
         const newData = [data, ...settings]
+
         const res = await mutateAsync(newData)
         onUpdate(res)
         
@@ -30,7 +31,7 @@ export const AddRow = ({settings, onUpdate, isAddADisabled}: TAddRowProps) => {
                 disabled={isAddADisabled}
                 icon={<PlusOutlined />} className={styles.button} />
 
-            <Modal title="Добавить элемент" open={isOpen} onOk={closeModal} onCancel={closeModal} footer={null} className={styles.modal}>
+            <Modal title="Add Modulation" open={isOpen} onOk={closeModal} onCancel={closeModal} footer={null} className={styles.modal}>
                 <AddItemForm onClose={closeModal} onSubmit={onSubmit} />
             </Modal>
         </div>

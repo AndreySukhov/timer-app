@@ -5,36 +5,28 @@ import { Play } from '../../assets/icons/play';
 
 export const Controls = ({ status, hasSettings, onComandUpdate, children } : TControlsProps) => {
     return (
-        <>
-
-        {/* <div>
-            <Button 
-                color="primary"
-                variant="solid"
-                size='large'
-                disabled={status !== 'run'}
-                onClick={() => onComandUpdate('pause')}
-            >
-                Пауза
-            </Button>
-
-        </div> */}
-           
-
-        
+        <>        
 
            <button
                 className={`${styles.button} ${styles['button-stop']}`}
-                disabled={!(status === 'run' || status === 'pause')}
+                disabled={status === 'stop' || !(status === 'run' || status === 'pause')}
                 onClick={() => onComandUpdate('stop')}
             >
                 <Square />
             </button>
 
- 
-
             {children}
 
+         <>
+         {status === 'run' ? (
+        <button 
+            className={`${styles.button} ${styles['button-start']}`}
+            disabled={status !== 'run'}
+            onClick={() => onComandUpdate('pause')}
+            >
+                Пауза
+        </button>
+         ) : (
             <button
                 className={`${styles.button} ${styles['button-start']}`}
                 onClick={() => onComandUpdate('start')}
@@ -42,6 +34,10 @@ export const Controls = ({ status, hasSettings, onComandUpdate, children } : TCo
             >
                 <Play />
             </button>
+         )}
+        </>
+
+        
         </>
     )
 }

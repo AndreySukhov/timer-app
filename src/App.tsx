@@ -64,7 +64,11 @@ export const App = () => {
   }, [realtimeData])
 
   if (!currentData && isLoading) {
-    return <Spin />
+    return (
+      <div className={styles['loader-wrap']}>
+        <Spin />
+      </div>
+    )
   }
 
   if (!currentData) {

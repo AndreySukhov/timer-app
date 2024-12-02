@@ -1,3 +1,9 @@
+.form {
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
 .form label {
     color: #fff !important;
     font-weight: 500;
@@ -9,10 +15,15 @@
     flex: 1;
 }
 
+.form-item :global(.ant-radio-group) {
+    width: 100%;
+}
+
 .form-item :global(.ant-input) {
     background-color: rgba(255, 255, 255, 0.06) !important;
-    padding: 16px 14px;
+    padding: 13px 14px;
     color: #999;
+    border-color: transparent;
 }
 
 .form-item :global(.ant-input::placeholder) {
@@ -36,7 +47,7 @@ input[type=number] {
     color: #999;
     height: 44px;
     margin-bottom: 0;
-    width: 190px;
+    width: 50%;
     text-align: center;
     border: none;
 }

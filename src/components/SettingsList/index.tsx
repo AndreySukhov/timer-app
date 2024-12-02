@@ -32,6 +32,7 @@ export const SettingsList = ({isSortable, settings, onUpdate, onDelete}: TSettin
                     key={i}
                     name={formatName(item.pulse_current)}
                     status={item.status}
+                    current={item.current}
                     time={convertSecondsToMinutes(item.timer - item.duration)}
                     onDelete={() => onDelete(i)}
                     actionsDisabled={false}
@@ -47,6 +48,7 @@ export const SettingsList = ({isSortable, settings, onUpdate, onDelete}: TSettin
                     key={i}
                     name={formatName(item.pulse_current)}
                     status={item.status}
+                    current={item.current}
                     time={convertSecondsToMinutes(item.timer - item.duration)}
                     onDelete={() => onDelete(i)}
                     actionsDisabled={false}

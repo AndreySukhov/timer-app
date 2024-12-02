@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: 128px 1fr 128px;
     gap: 34px;
-    margin-bottom: 36px;
+    margin-bottom: 8px;
 }
 
 .row--end {
@@ -29,4 +29,12 @@ body :global(.ant-modal-title) {
 
 body :global(.ant-modal-close-x) path {
     fill: #666 !important;
+}
+
+.loader-wrap {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
